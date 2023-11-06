@@ -5,6 +5,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
+def home(request):
+  return render(request, 'home.html')
+
+def allposts(request):
+  return render(request, 'all_posts.html')
+
+def yourposts(request):
+  return render(request, 'your_posts.html')
 
 def signup(request):
   error_message = ''
