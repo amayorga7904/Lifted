@@ -3,6 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Post, Comment
 # Create your views here.
 
 def home(request):
@@ -12,7 +13,8 @@ def all_posts(request):
   return render(request, 'index.html')
 
 def your_posts(request):
-  return render(request, 'your_posts.html')
+  posts = Post.objects.filter(user=request.user)
+  return render(request, 'posts/your_posts.html', {'your_posts': posts})
 
 def signup(request):
   error_message = ''
