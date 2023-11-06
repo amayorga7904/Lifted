@@ -8,10 +8,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def home(request):
   return render(request, 'home.html')
 
-def allposts(request):
-  return render(request, 'all_posts.html')
+def all_posts(request):
+  return render(request, 'index.html')
 
-def yourposts(request):
+def your_posts(request):
   return render(request, 'your_posts.html')
 
 def signup(request):
