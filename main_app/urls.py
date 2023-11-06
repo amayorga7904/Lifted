@@ -6,4 +6,5 @@ urlpatterns = [
     path('posts/', views.all_posts, name='index'),
     path('posts/<int:user_id>/', views.your_posts, name='your_posts'),
     path('accounts/signup/', views.signup, name='signup'),
+    path('post/create/', views.PostCreate.as_view(), name='post_create')
 ]
