@@ -3,12 +3,16 @@ import uuid
 import boto3
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Photo
+from django.views.generic.list import ListView
 # Create your views here.
+
+
 
 def home(request):
   return render(request, 'home.html')
@@ -44,9 +48,19 @@ def signup(request):
 class PostCreate(LoginRequiredMixin, CreateView):
   model = Post
   fields = ['description']
+  success_url = reverse_lazy('index')
 
   def form_valid(self, form):
       form.instance.user = self.request.user
+
+      # Create a Post object for the 'index' page
+      post_for_index = form.save(commit=False)
+      post_for_index.save()
+
+      # Create a Post object for the 'your_posts' page
+      post_for_your_posts = form.save(commit=False)
+      post_for_your_posts.save()
+
       return super().form_valid(form)
 
 def add_photo(request, post_id):
@@ -68,3 +82,17 @@ def add_photo(request, post_id):
 class CommentCreate(LoginRequiredMixin, CreateView):
   model = Comment
   fields = '__all__'
+
+class PostListView(ListView):
+    model = Post
+    template_name = 'posts/index.html'  # Specify the template to be used
+    context_object_name = 'object_list'  # Context variable to access the list of objects in the template
+
+class YourPostsListView(ListView):
+    model = Post
+    template_name = 'posts/your_posts.html'  # Specify the template to be used
+    context_object_name = 'your_posts'  # Context variable to access the list of your posts
+
+    def get_queryset(self):
+        # Filter the posts by the currently logged-in user
+        return Post.objects.filter(user=self.request.user)

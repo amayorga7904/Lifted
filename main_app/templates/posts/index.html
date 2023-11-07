@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<h1>insert all posts here</h1>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index Page</title>
+</head>
+<body>
+    <h1>posts/index.html</h1>
+    <ul>
+        {% for post in object_list %}
+            <li>{{ post.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
 {% endblock %}

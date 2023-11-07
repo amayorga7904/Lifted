@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<h1>Your Posts</h1>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Posts</title>
+</head>
+<body>
+    <h1>Your Posts</h1>
+    <ul>
+        {% for post in your_posts %}
+            <li>{{ post.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
 
 <!-- Leaving the action empty makes the form post to the same url used to display it -->
 <form action="" method="POST">
