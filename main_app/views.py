@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Comment
+from .models import Post, Comment, Photo
 # Create your views here.
 
 def home(request):
@@ -43,25 +43,28 @@ def signup(request):
 
 class PostCreate(LoginRequiredMixin, CreateView):
   model = Post
-  fields = ['url', 'description']
+  fields = ['description']
 
   def form_valid(self, form):
       form.instance.user = self.request.user
       return super().form_valid(form)
 
-  def post(self, request, *args, **kwargs):
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-      s3 = boto3.client('s3')
-      key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-      try:
-        bucket = os.environ['S3_BUCKET']
-        s3.upload_fileobj(photo_file, bucket, key)
-        url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
-        self.object = Post.objects.create(url=url, user=self.request.user, description=request.POST.get('description'))
-      except Exception as e:
-        print('An error occurred uploading file to S3')
-        print(e)
-      return self.form_valid(self.get_form())
-    else:
-      return super().post(request, *args, **kwargs) 
+def add_photo(request, post_id):
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+    try:
+      bucket = os.environ['S3_BUCKET']
+      s3.upload_fileobj(photo_file, bucket, key)
+      url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+      Photo.objects.create(url=url, post_id=post_id)
+    except Exception as e:
+      print('An error occurred uploading file to S3')
+      print(e)
+  return redirect('detail', post_id=post_id)
+
+
+class CommentCreate(LoginRequiredMixin, CreateView):
+  model = Comment
+  fields = '__all__'
