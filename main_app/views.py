@@ -3,11 +3,12 @@ import uuid
 import boto3
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Photo
+from .forms import CommentForm
 # Create your views here.
 
 def home(request):
@@ -22,6 +23,15 @@ def your_posts(request, user_id):
     # Your view logic here
     posts = Post.objects.filter(user_id=user_id)
     return render(request, 'posts/your_posts.html', {'your_posts': posts})
+
+
+def posts_details(request, post_id):
+  post = Post.objects.get(id=post_id)
+  comment_form = CommentForm()
+  return render(request, 'posts/detail.html', {
+    'post': post, 'comment_form': comment_form
+  })
+
 
 def signup(request):
   error_message = ''
@@ -68,3 +78,17 @@ def add_photo(request, post_id):
 class CommentCreate(LoginRequiredMixin, CreateView):
   model = Comment
   fields = '__all__'
+
+
+class PostDelete(LoginRequiredMixin, DeleteView):
+  model = Post
+  success_url = '/posts'
+
+
+def add_comment(request, post_id):
+  form = CommentForm(request.POST)
+  if form.is_valid():
+    new_comment = form.save(commit=False)
+    new_comment.post_id = post_id
+    new_comment.save()
+  return redirect('detail', post_id=post_id)
