@@ -23,10 +23,7 @@ def all_posts(request):
     return render(request, 'posts/index.html', {'posts': posts})
 
 
-def your_posts(request, user_id):
-    # Your view logic here
-    posts = Post.objects.filter(user_id=user_id)
-    return render(request, 'posts/your_posts.html', {'your_posts': posts})
+
 
 
 def posts_detail(request, post_id):
