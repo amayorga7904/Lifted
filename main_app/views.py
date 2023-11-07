@@ -14,11 +14,14 @@ def home(request):
   return render(request, 'home.html')
 
 def all_posts(request):
-  return render(request, 'index.html')
+    posts = Post.objects.all()
+    return render(request, 'posts/index.html', {'posts': posts})
 
-def your_posts(request):
-  posts = Post.objects.filter(user=request.user)
-  return render(request, 'posts/your_posts.html', {'your_posts': posts})
+
+def your_posts(request, user_id):
+    # Your view logic here
+    posts = Post.objects.filter(user_id=user_id)
+    return render(request, 'posts/your_posts.html', {'your_posts': posts})
 
 def signup(request):
   error_message = ''
@@ -46,7 +49,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
       form.instance.user = self.request.user
       return super().form_valid(form)
 
-  def post(self, request, user_id):
+  def post(self, request, *args, **kwargs):
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
       s3 = boto3.client('s3')
@@ -59,4 +62,6 @@ class PostCreate(LoginRequiredMixin, CreateView):
       except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)
-    return self.form_valid(self.get_form()) 
+      return self.form_valid(self.get_form())
+    else:
+      return super().post(request, *args, **kwargs) 
