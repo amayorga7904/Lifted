@@ -7,11 +7,13 @@
 </head>
 <body>
     <h1>posts/index.html</h1>
-    <ul>
+    <div>
         {% for post in object_list %}
-            <li>{{ post.description }}</li>
+        <a href="{% url 'detail' post.id %}">
+            <p>{{ post.description }}</p>
+        </a>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
 {% endblock %}
