@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .views import PostListView
 from .views import YourPostsListView
+from .views import PostDelete
 
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('posts/<int:post_id>/', views.posts_detail, name='detail'),
     path('posts/<int:post_id>/add_photo/', views.add_photo, name='add_photo'),
     path('posts/<int:post_id>/add_comment/', views.add_comment, name='add_comment'),
+    path('post/delete/<int:pk>/', PostDelete.as_view(), name='post_delete'),
 ]

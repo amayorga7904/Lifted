@@ -9,10 +9,12 @@
         <span>placeHolder</span>
         <p>Description: {{ post.description|linebreaks }}</p>
       </div>
-      <!-- <div class="card-action">
-        <a href="{% url 'cats_update' cat.id %}">Edit</a>
-        <a href="{% url 'cats_delete' cat.id %}">Delete</a>
-      </div> -->
+
+      <form method="post" action="{% url 'post_delete' post.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Post</button>
+      </form>
+
     </div>
     {% for photo in post.photo_set.all %}
       <img src="{{photo.url}}">

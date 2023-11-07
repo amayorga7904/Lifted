@@ -109,7 +109,7 @@ class YourPostsListView(ListView):
 
 class PostDelete(LoginRequiredMixin, DeleteView):
   model = Post
-  success_url = '/posts'
+  success_url = reverse_lazy('index')
 
 
 def add_comment(request, post_id):
