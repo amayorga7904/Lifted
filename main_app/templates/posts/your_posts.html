@@ -1,5 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
+<!-- <img src="{{ post.url }}" alt="{{ post.description }}">
+<p>Description: {{ post.description }}</p>
+
+
+<form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<label for="photo-file">Upload Photo:</label>
+<input type="file" name="photo-file" required>
+<br>
+<label for="description">Description:</label>
+<textarea name="description" required></textarea>
+<br>
+<button type="submit" class="btn">Upload Photo</button>
+</form> -->
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,15 +34,5 @@
 </body>
 </html>
 
-<!-- Leaving the action empty makes the form post to the same url used to display it -->
-<form action="" method="POST">
-    <!-- Django requires the following for security purposes -->
-    {% csrf_token %}
-    <table>
-      <!-- Render the inputs inside of <tr>s & <td>s -->
-      {{ form.as_table }}
-    </table>
-    <input type="submit" value="Submit!" class="btn">
-</form>
   
 {% endblock %}

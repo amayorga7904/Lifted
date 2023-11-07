@@ -29,7 +29,7 @@ def your_posts(request, user_id):
     return render(request, 'posts/your_posts.html', {'your_posts': posts})
 
 
-def posts_details(request, post_id):
+def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
   comment_form = CommentForm()
   return render(request, 'posts/detail.html', {
