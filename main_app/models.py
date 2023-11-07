@@ -8,7 +8,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Post by user_id: {self.user.id} @{self.url}"
+        return f"Post by user_id: {self.user.id}"
 
     class Meta:
         ordering = ['-created_at']
