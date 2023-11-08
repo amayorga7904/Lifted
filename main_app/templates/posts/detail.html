@@ -5,10 +5,10 @@
 
 <div>
     <div>
-        <div>
-            <span>placeHolder</span>
-            <p>Description: {{ post.description|linebreaks }}</p>
-        </div>
+      <div>
+        <span>{{ post.user.username }}</span>
+        <p>Description: {{ post.description|linebreaks }}</p>
+      </div>
 
         <form method="post" action="{% url 'post_delete' post.id %}">
             {% csrf_token %}
