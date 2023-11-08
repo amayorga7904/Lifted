@@ -7,7 +7,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import UserCanDeletePostMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Comment, Photo
 from django.views.generic.list import ListView
 from .forms import CommentForm
@@ -108,11 +109,9 @@ class YourPostsListView(LoginRequiredMixin, ListView):
         # Filter the posts by the currently logged-in user
         return Post.objects.filter(user=self.request.user)
 
-
-class PostDelete(LoginRequiredMixin, DeleteView):
-  model = Post
-  success_url = reverse_lazy('index')
-  
+class PostDelete(UserCanDeletePostMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('index')
 
 
 class PostUpdate(LoginRequiredMixin, UpdateView):
@@ -121,9 +120,11 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
 
 @login_required
 def add_comment(request, post_id):
-  form = CommentForm(request.POST)
-  if form.is_valid():
-    new_comment = form.save(commit=False)
-    new_comment.post_id = post_id
-    new_comment.save()
-  return redirect('detail', post_id=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user  # Set the user to the currently logged-in user
+            new_comment.post_id = post_id
+            new_comment.save()
+    return redirect('detail', post_id=post_id)
