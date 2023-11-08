@@ -30,23 +30,19 @@
   </div>
   <div>
     <form action="{% url 'add_comment' post.id %}" method="POST">
-      {% csrf_token %}
-      {{ comment_form.as_p }}
-      <input type="submit" class="btn" value="Add Comment">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <input type="submit" class="btn" value="Add Comment">
     </form>
     <br>
-    <table>
-      <thead>
-        <tr><th>Comments</th></tr>
-      </thead>
-      <tbody>
+    <h2>Comments</h2>
+    <ul>
         {% for comment in post.comment_set.all %}
-          <tr>
-            <td>{{comment.get_content_display}}</td>
-          </tr>
+            <li>{{ comment.content }}</li>
+        {% empty %}
+            <li>No comments yet.</li>
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
+    </ul>
+</div>
 
   {% endblock %}
