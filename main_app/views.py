@@ -1,7 +1,7 @@
 import os
 import uuid
 import boto3
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -12,6 +12,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Photo
 from django.views.generic.list import ListView
 from .forms import CommentForm
+from django.http import JsonResponse
 # Create your views here.
 
 
@@ -128,4 +129,16 @@ def add_comment(request, post_id):
             new_comment.post_id = post_id
             new_comment.save()
     return redirect('detail', post_id=post_id)
-print(add_comment)
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    
+    if comment.user == request.user:
+        post_id = comment.post.id  # Get the post ID before deleting the comment
+        comment.delete()
+        # Redirect to the post detail page with the correct post_id
+        return redirect('detail', post_id=post_id)
+    else:
+        # Handle the case where the user doesn't have permission (you can customize this)
+        return redirect('detail', post_id=comment.post.id)  # Redirect to the post detail page
