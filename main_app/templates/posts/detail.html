@@ -6,7 +6,7 @@
 <div>
     <div>
       <div>
-        <span>placeHolder</span>
+        <span>{{ post.user.username }}</span>
         <p>Description: {{ post.description|linebreaks }}</p>
       </div>
 
@@ -38,7 +38,7 @@
     <h2>Comments</h2>
     <ul>
         {% for comment in post.comment_set.all %}
-            <li>{{ comment.content }}</li>
+          <li>{{ comment.user.username }}: {{ comment.content }}</li>
         {% empty %}
             <li>No comments yet.</li>
         {% endfor %}

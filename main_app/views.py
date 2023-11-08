@@ -12,7 +12,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Photo
 from django.views.generic.list import ListView
 from .forms import CommentForm
+import getpass
+from django.contrib.auth.models import User
 # Create your views here.
+
+
 
 
 @login_required
@@ -28,11 +32,12 @@ def all_posts(request):
 
 
 @login_required
-def posts_detail(request, post_id):
+def posts_detail(request, post_id, user_id):
   post = Post.objects.get(id=post_id)
+  user = User.objects.get(id=user_id)
   comment_form = CommentForm()
   return render(request, 'posts/detail.html', {
-    'post': post, 'comment_form': comment_form
+    'post': post, 'comment_form': comment_form, 'user': user
   })
 
 
@@ -119,6 +124,10 @@ class PostUpdate(UserCanUpdatePostMixin, UpdateView):
   fields = ['description']
   success_url = reverse_lazy('index')
 
+def get_logged_in_username():
+    username = getpass.getuser()
+    return username
+
 @login_required
 def add_comment(request, post_id):
     if request.method == 'POST':
@@ -128,4 +137,9 @@ def add_comment(request, post_id):
             new_comment.user = request.user  # Set the user to the currently logged-in user
             new_comment.post_id = post_id
             new_comment.save()
+            
     return redirect('detail', post_id=post_id)
+
+
+
+
