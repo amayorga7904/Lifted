@@ -93,7 +93,6 @@ class CommentCreate(LoginRequiredMixin, CreateView):
   model = Comment
   fields = '__all__'
 
-
 class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'posts/index.html'  # Specify the template to be used
@@ -129,3 +128,4 @@ def add_comment(request, post_id):
             new_comment.post_id = post_id
             new_comment.save()
     return redirect('detail', post_id=post_id)
+print(add_comment)
