@@ -1,19 +1,19 @@
-import os
-import uuid
-import boto3
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from .mixins import UserCanDeletePostMixin, UserCanUpdatePostMixin
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Post, Comment, Photo
+from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
+from django.contrib.auth.models import User
+from .models import Post, Comment, Photo
+from django.contrib.auth import login
+from django.urls import reverse_lazy
 from .forms import CommentForm
 import getpass
-from django.contrib.auth.models import User
+import boto3
+import uuid
+import os
 # Create your views here.
 
 
@@ -23,22 +23,23 @@ from django.contrib.auth.models import User
 def home(request):
   return render(request, 'home.html')
 
+
 @login_required
 def all_posts(request):
     posts = Post.objects.all()
     return render(request, 'posts/index.html', {'posts': posts})
 
 
-
-
 @login_required
-def posts_detail(request, post_id, user_id):
+def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
-  user = User.objects.get(id=user_id)
   comment_form = CommentForm()
   return render(request, 'posts/detail.html', {
-    'post': post, 'comment_form': comment_form, 'user': user
+    'post': post, 'comment_form': comment_form
   })
+
+
+
 
 
 def signup(request):
@@ -46,17 +47,43 @@ def signup(request):
   if request.method == 'POST':
     form = UserCreationForm(request.POST)
     if form.is_valid():
-      # Save the user to the db
       user = form.save()
-      # Automatically log in the new user
       login(request, user)
       return redirect('index')
     else:
       error_message = 'Invalid sign up - try again'
-  # A bad POST or a GET request, so render signup template
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+
+def get_logged_in_username():
+    username = getpass.getuser()
+    return username
+
+
+@login_required
+def add_comment(request, post_id):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.user = request.user 
+            new_comment.post_id = post_id
+            new_comment.save()
+    return redirect('detail', post_id=post_id)
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    if comment.user == request.user:
+        post_id = comment.post.id  
+        comment.delete()
+        return redirect('detail', post_id=post_id)
+    else:
+        return redirect('detail', post_id=comment.post.id) 
+    
 
 
 class PostCreate(LoginRequiredMixin, CreateView):
@@ -66,16 +93,47 @@ class PostCreate(LoginRequiredMixin, CreateView):
 
   def form_valid(self, form):
       form.instance.user = self.request.user
-
-      # Create a Post object for the 'index' page
       post_for_index = form.save(commit=False)
       post_for_index.save()
-
-      # Create a Post object for the 'your_posts' page
       post_for_your_posts = form.save(commit=False)
       post_for_your_posts.save()
-
       return super().form_valid(form)
+
+
+
+class CommentCreate(LoginRequiredMixin, CreateView):
+  model = Comment
+  fields = '__all__'
+
+
+
+class PostListView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'posts/index.html' 
+    context_object_name = 'object_list'  
+
+
+
+class YourPostsListView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'posts/your_posts.html'  
+    context_object_name = 'your_posts' 
+
+    def get_queryset(self):
+        return Post.objects.filter(user=self.request.user)
+
+
+
+class PostDelete(UserCanDeletePostMixin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('index')
+
+
+
+class PostUpdate(UserCanUpdatePostMixin, UpdateView):
+  model = Post
+  fields = ['description']
+  success_url = reverse_lazy('index')
 
 @login_required
 def add_photo(request, post_id):
@@ -93,61 +151,3 @@ def add_photo(request, post_id):
       print(e)
   return redirect('detail', post_id=post_id)
 
-
-class CommentCreate(LoginRequiredMixin, CreateView):
-  model = Comment
-  fields = '__all__'
-
-class PostListView(LoginRequiredMixin, ListView):
-    model = Post
-    template_name = 'posts/index.html'  # Specify the template to be used
-    context_object_name = 'object_list'  # Context variable to access the list of objects in the template
-
-
-class YourPostsListView(LoginRequiredMixin, ListView):
-    model = Post
-    template_name = 'posts/your_posts.html'  # Specify the template to be used
-    context_object_name = 'your_posts'  # Context variable to access the list of your posts
-
-    def get_queryset(self):
-        # Filter the posts by the currently logged-in user
-        return Post.objects.filter(user=self.request.user)
-
-class PostDelete(UserCanDeletePostMixin, DeleteView):
-    model = Post
-    success_url = reverse_lazy('index')
-
-
-class PostUpdate(UserCanUpdatePostMixin, UpdateView):
-  model = Post
-  fields = ['description']
-  success_url = reverse_lazy('index')
-
-def get_logged_in_username():
-    username = getpass.getuser()
-    return username
-
-@login_required
-def add_comment(request, post_id):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.user = request.user  # Set the user to the currently logged-in user
-            new_comment.post_id = post_id
-            new_comment.save()
-            
-    return redirect('detail', post_id=post_id)
-
-@login_required
-def delete_comment(request, comment_id):
-    comment = get_object_or_404(Comment, pk=comment_id)
-    
-    if comment.user == request.user:
-        post_id = comment.post.id  # Get the post ID before deleting the comment
-        comment.delete()
-        # Redirect to the post detail page with the correct post_id
-        return redirect('detail', post_id=post_id)
-    else:
-        # Handle the case where the user doesn't have permission (you can customize this)
-        return redirect('detail', post_id=comment.post.id)  # Redirect to the post detail page

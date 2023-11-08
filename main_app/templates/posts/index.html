@@ -1,19 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Index Page</title>
-</head>
-<body>
-    <h1>posts/index.html</h1>
-    <div>
-        {% for post in object_list %}
-        <a href="{% url 'detail' post.id user.id %}">
+
+<h1>posts/index.html</h1>
+<div>
+    {% for post in object_list %}
+        <a href="{% url 'detail' post.id %}">
             <p>{{ post.description }}</p>
         </a>
-        {% endfor %}
-    </div>
-</body>
-</html>
+    {% endfor %}
+</div>
+
 {% endblock %}
