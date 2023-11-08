@@ -14,7 +14,7 @@
         {% csrf_token %}
         <button type="submit">Delete Post</button>
       </form>
-
+      <a href="{% url 'posts_update' post.id %}">Edit</a>
     </div>
     {% for photo in post.photo_set.all %}
       <img src="{{photo.url}}">
