@@ -10,25 +10,25 @@
         <p>Description: {{ post.description|linebreaks }}</p>
       </div>
 
-      <form method="post" action="{% url 'post_delete' post.id %}">
-        {% csrf_token %}
-        <button type="submit">Delete Post</button>
-      </form>
-      <a href="{% url 'posts_update' post.id %}">Edit</a>
+        <form method="post" action="{% url 'post_delete' post.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete Post</button>
+        </form>
+        <a href="{% url 'posts_update' post.id %}">Edit</a>
     </div>
     {% for photo in post.photo_set.all %}
-      <img src="{{photo.url}}">
+        <img src="{{photo.url}}">
     {% empty %}
-      <di>No Photos Uploaded</div>
+        <di>No Photos Uploaded</div>
     {% endfor %}
     <form action="{% url 'add_photo' post.id %}" enctype="multipart/form-data" method="POST">
-      {% csrf_token %}
-      <input type="file" name="photo-file">
-      <br><br>
-      <button type="submit" class="btn">Upload Photo</button>
+        {% csrf_token %}
+        <input type="file" name="photo-file">
+        <br><br>
+        <button type="submit" class="btn">Upload Photo</button>
     </form>
-  </div>
-  <div>
+</div>
+<div>
     <form action="{% url 'add_comment' post.id %}" method="POST">
         {% csrf_token %}
         {{ comment_form.as_p }}
@@ -38,11 +38,16 @@
     <h2>Comments</h2>
     <ul>
         {% for comment in post.comment_set.all %}
-          <li>{{ comment.user.username }}: {{ comment.content }}</li>
+            <li>
+                {{ comment.content }}
+                {% if comment.user == request.user %}
+                    <a href="{% url 'comment_delete' comment.id %}">Delete</a>
+                {% endif %}
+            </li>
         {% empty %}
             <li>No comments yet.</li>
         {% endfor %}
     </ul>
 </div>
 
-  {% endblock %}
+{% endblock %}
