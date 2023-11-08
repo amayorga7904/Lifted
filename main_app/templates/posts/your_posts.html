@@ -1,38 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<!-- <img src="{{ post.url }}" alt="{{ post.description }}">
-<p>Description: {{ post.description }}</p>
 
-
-<form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
-{% csrf_token %}
-<label for="photo-file">Upload Photo:</label>
-<input type="file" name="photo-file" required>
-<br>
-<label for="description">Description:</label>
-<textarea name="description" required></textarea>
-<br>
-<button type="submit" class="btn">Upload Photo</button>
-</form> -->
-
-
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Your Posts</title>
-</head>
-<body>
-    <h1>Your Posts</h1>
-    <ul>
-        {% for post in your_posts %}
-            <li>{{ post.description }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
-
+<h1>Your Posts</h1>
+<div>
+    {% for post in your_posts %}
+        <a href="{% url 'detail' post.id %}">
+        <p>{{ post.description }}</p>
+        </a>
+    {% endfor %}
+</div>
   
 {% endblock %}

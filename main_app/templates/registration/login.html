@@ -4,10 +4,10 @@
 <h1>Log In</h1>
 
 <form action="{% url 'login' %}" method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="hidden" name="next" value="{{ next }}">
-  <button type="submit">Log In</button>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">Log In</button>
 </form>
 
 {% endblock %}
