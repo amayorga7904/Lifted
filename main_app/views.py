@@ -15,10 +15,11 @@ from .forms import CommentForm
 # Create your views here.
 
 
-
+@login_required
 def home(request):
   return render(request, 'home.html')
 
+@login_required
 def all_posts(request):
     posts = Post.objects.all()
     return render(request, 'posts/index.html', {'posts': posts})
@@ -26,7 +27,7 @@ def all_posts(request):
 
 
 
-
+@login_required
 def posts_detail(request, post_id):
   post = Post.objects.get(id=post_id)
   comment_form = CommentForm()
@@ -71,6 +72,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
 
       return super().form_valid(form)
 
+@login_required
 def add_photo(request, post_id):
   photo_file = request.FILES.get('photo-file', None)
   if photo_file:
@@ -91,12 +93,14 @@ class CommentCreate(LoginRequiredMixin, CreateView):
   model = Comment
   fields = '__all__'
 
-class PostListView(ListView):
+
+class PostListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'posts/index.html'  # Specify the template to be used
     context_object_name = 'object_list'  # Context variable to access the list of objects in the template
 
-class YourPostsListView(ListView):
+
+class YourPostsListView(LoginRequiredMixin, ListView):
     model = Post
     template_name = 'posts/your_posts.html'  # Specify the template to be used
     context_object_name = 'your_posts'  # Context variable to access the list of your posts
@@ -110,6 +114,11 @@ class PostDelete(UserCanDeletePostMixin, DeleteView):
     success_url = reverse_lazy('index')
 
 
+class PostUpdate(LoginRequiredMixin, UpdateView):
+  model = Post
+  fields = ['description']
+
+@login_required
 def add_comment(request, post_id):
     if request.method == 'POST':
         form = CommentForm(request.POST)
