@@ -7,8 +7,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from .mixins import UserCanDeletePostMixin
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .mixins import UserCanDeletePostMixin, UserCanUpdatePostMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Post, Comment, Photo
 from django.views.generic.list import ListView
 from .forms import CommentForm
@@ -114,9 +114,10 @@ class PostDelete(UserCanDeletePostMixin, DeleteView):
     success_url = reverse_lazy('index')
 
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(UserCanUpdatePostMixin, UpdateView):
   model = Post
   fields = ['description']
+  success_url = reverse_lazy('index')
 
 @login_required
 def add_comment(request, post_id):
