@@ -9,7 +9,7 @@
     <h1>posts/index.html</h1>
     <div>
         {% for post in object_list %}
-        <a href="{% url 'detail' post.id %}">
+        <a href="{% url 'detail' post.id user.id %}">
             <p>{{ post.description }}</p>
         </a>
         {% endfor %}
