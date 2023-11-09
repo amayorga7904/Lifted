@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
+from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from .models import Post, Comment, Photo
 from django.contrib.auth import login
@@ -151,3 +152,5 @@ def add_photo(request, post_id):
       print(e)
   return redirect('detail', post_id=post_id)
 
+def custom_403_view(request):
+    return render(request, '403.html', status=403)
