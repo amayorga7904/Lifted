@@ -1,9 +1,9 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, AccessMixin
-from django.views.generic import View
 from django.contrib.auth.views import redirect_to_login
-from django.urls import reverse
-from django.shortcuts import render
 from django.core.exceptions import PermissionDenied
+from django.views.generic import View
+from django.shortcuts import render
+from django.urls import reverse
 
 
 class UserCanDeletePostMixin(UserPassesTestMixin):
