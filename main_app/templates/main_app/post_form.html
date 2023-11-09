@@ -3,12 +3,14 @@
 {% block content %}
 
 <h1>Add your post!</h1>
-
+<br>
+<br>
 <form action="{% url 'post_create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
+    <br>
     <input type="file" name="photo-file">
     <br><br>
     <input type="submit" value="Submit!" class="btn">

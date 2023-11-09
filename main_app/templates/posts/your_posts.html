@@ -4,9 +4,11 @@
 {% block content %}
 
 <h1>Your Posts</h1>
+<br>
+<br>
 <div>
     {% for post in your_posts %}
-        <a href="{% url 'detail' post.id %}">
+        <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
         <p>{{ post.description }}</p>
         </a>
     {% endfor %}

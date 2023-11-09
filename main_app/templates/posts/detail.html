@@ -2,53 +2,55 @@
 {% block content %}
 
 <h1>Post Details</h1>
-
-<div>
-    <div>
-        <div>
-            <span>{{ post.user.username }}</span>
-            <p>Description: {{ post.description|linebreaks }}</p>
-        </div>
-        <form method="post" action="{% url 'post_delete' post.id %}">
-            {% csrf_token %}
-            <button type="submit">Delete Post</button>
-        </form>
-        <a href="{% url 'posts_update' post.id %}">Edit</a>
+<br>
+<br>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <span class="card-title">user: <strong>{{ post.user.username }}</strong></span>
+      <p>{{ post.description|linebreaks }}</p>
     </div>
-    <div>
-        {% for photo in post.photo_set.all %}
-            <img src="{{photo.url}}">
-        {% empty %}
-            <p>No Photos Uploaded</p>
-        {% endfor %}
-        <form action="{% url 'add_photo' post.id %}" enctype="multipart/form-data" method="POST">
-            {% csrf_token %}
-            <input type="file" name="photo-file">
-            <br><br>
-            <button type="submit" class="btn">Upload Photo</button>
-        </form>
+    <div class="card-action">
+      <a href="{% url 'post_delete' post.id %}">Delete</a>
+      <a href="{% url 'posts_update' post.id %}">Edit</a>
     </div>
-</div>
-<div>
+  </div>
+  <div class="col s6">
     <form action="{% url 'add_comment' post.id %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form.as_p }}
-        <input type="submit" class="btn" value="Add Comment">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <input type="submit" class="btn" value="Add Comment">
     </form>
     <br>
     <h2>Comments</h2>
-</div>  
-<div>
     {% for comment in post.comment_set.all %}
-        <p>
-            {{ comment.content }}
-            {% if comment.user == request.user %}
-            <a href="{% url 'comment_delete' comment.id %}">Delete</a>
-            {% endif %}
-        </p>
-        {% empty %}
-        <p>No comments yet</p>
+      <p>
+        <p><strong>{{ comment.user.username }}</strong>: {{ comment.content }}</p>
+        {% if comment.user == request.user %}
+        <a href="{% url 'comment_delete' comment.id %}">Delete</a>
+        {% endif %}
+      </p>
+      {% empty %}
+      <p>No comments yet</p>
     {% endfor %}
+    <br>
+    <br>
+  </div>
+  <div class="row2 image-container">
+    <form action="{% url 'add_photo' post.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+      {% csrf_token %}
+      <input type="file" name="photo-file">
+      <br><br>
+      <button type="submit" class="btn">Upload Photo</button>
+    </form>
+    {% for photo in post.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{photo.url}}" style="max-width: 200px; max-height: 200px;">
+      {% empty %}
+      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+  </div>
 </div>
+
+
 
 {% endblock %}
