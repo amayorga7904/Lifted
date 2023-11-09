@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
+from django.http import HttpResponseForbidden
 from .models import Post, Comment, Photo
 from django.contrib.auth import login
 from django.urls import reverse_lazy
@@ -167,3 +168,5 @@ class PostUpdate(UserCanUpdatePostMixin, UpdateView):
 
 
 
+def custom_403_view(request):
+    return render(request, '403.html', status=403)
