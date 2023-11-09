@@ -3,9 +3,13 @@ from . import views
 from .views import PostListView
 from .views import YourPostsListView
 from .views import PostDelete
+
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path
+
+
+from .views import custom_403_view
 
 
 
