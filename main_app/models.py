@@ -1,10 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-from django.utils import timezone
+
 
 
 # Create your models here.
+class Image(models.Model):
+    image = models.ImageField(upload_to='images/')
+    description = models.CharField()
+
+    def __str__(self):
+        queryset = Image.objects.all()
+        return self.description  # Display the description as the object's string representation
+
+
+
 class Post(models.Model):
     description = models.TextField(max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -126,8 +126,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
+# Define the root directory for the static files (CSS, JavaScript, images).
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Define the directories where Django will look for static files.
+
+
+MEDIA_URL = '/media/'  # Base URL for serving media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Absolute filesystem path to the media directory
 
 LOGIN_REDIRECT_URL = '/posts/'
 
@@ -136,3 +144,4 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

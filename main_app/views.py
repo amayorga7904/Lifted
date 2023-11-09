@@ -6,17 +6,30 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
-from .models import Post, Comment, Photo
+from .models import Post, Comment, Photo, Image
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from .forms import CommentForm
+from .forms import CommentForm, ImageForm
+from django.shortcuts import render, redirect
 import getpass
 import boto3
 import uuid
 import os
 # Create your views here.
 
+def create_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('image_list')  # Redirect to the image list page after successful form submission
+    else:
+        form = ImageForm()
+    return render(request, 'main_app/image_form.html', {'form': form})
 
+def image_list(request):
+    images = Image.objects.all()
+    return render(request, 'main_app/image_list.html', {'images': images})
 
 
 @login_required
