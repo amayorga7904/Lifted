@@ -5,31 +5,32 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.list import ListView
-from django.contrib.auth.models import User
-from .models import Post, Comment, Photo, Image
+from django.shortcuts import render, redirect
+from .models import Post, Comment, Photo
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from .forms import CommentForm, ImageForm
-from django.shortcuts import render, redirect
+from .forms import CommentForm
 import getpass
 import boto3
 import uuid
 import os
 # Create your views here.
 
-def create_image(request):
-    if request.method == 'POST':
-        form = ImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('image_list')  # Redirect to the image list page after successful form submission
-    else:
-        form = ImageForm()
-    return render(request, 'main_app/image_form.html', {'form': form})
-
-def image_list(request):
-    images = Image.objects.all()
-    return render(request, 'main_app/image_list.html', {'images': images})
+@login_required
+def add_photo(request, post_id):
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+    try:
+      bucket = os.environ['S3_BUCKET']
+      s3.upload_fileobj(photo_file, bucket, key)
+      url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+      Photo.objects.create(url=url, post_id=post_id)
+    except Exception as e:
+      print('An error occurred uploading file to S3')
+      print(e)
+  return redirect('detail', post_id=post_id)
 
 
 @login_required
@@ -50,9 +51,6 @@ def posts_detail(request, post_id):
   return render(request, 'posts/detail.html', {
     'post': post, 'comment_form': comment_form
   })
-
-
-
 
 
 def signup(request):
@@ -100,17 +98,36 @@ def delete_comment(request, comment_id):
 
 
 class PostCreate(LoginRequiredMixin, CreateView):
-  model = Post
-  fields = ['description']
-  success_url = reverse_lazy('index')
+    model = Post
+    fields = ['description']
+    template_name = 'main_app/post_form.html'
+    success_url = reverse_lazy('index')
 
-  def form_valid(self, form):
-      form.instance.user = self.request.user
-      post_for_index = form.save(commit=False)
-      post_for_index.save()
-      post_for_your_posts = form.save(commit=False)
-      post_for_your_posts.save()
-      return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        post = form.save(commit=False)
+        post.save()
+
+        # Handle the uploaded photo from the form
+        image = self.request.FILES.get('photo-file', None)  # Assuming 'image' is the name of the file input
+        if image:
+            url = self.upload_image_to_s3(image)
+            Photo.objects.create(url=url, post_id=post.id)
+
+        return super().form_valid(form)
+
+    def upload_image_to_s3(self, image_file):
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + image_file.name[image_file.name.rfind('.'):]
+
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(image_file, bucket, key)
+            return f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+            return None
 
 
 
@@ -148,19 +165,5 @@ class PostUpdate(UserCanUpdatePostMixin, UpdateView):
   fields = ['description']
   success_url = reverse_lazy('index')
 
-@login_required
-def add_photo(request, post_id):
-  photo_file = request.FILES.get('photo-file', None)
-  if photo_file:
-    s3 = boto3.client('s3')
-    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-    try:
-      bucket = os.environ['S3_BUCKET']
-      s3.upload_fileobj(photo_file, bucket, key)
-      url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
-      Photo.objects.create(url=url, post_id=post_id)
-    except Exception as e:
-      print('An error occurred uploading file to S3')
-      print(e)
-  return redirect('detail', post_id=post_id)
+
 
