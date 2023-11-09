@@ -1,0 +1,9 @@
+a {
+    color: black;
+}
+
+body {
+    text-align: left;
+    margin-left: revert-layer;
+  }
+  

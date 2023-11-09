@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>posts/index.html</h1>
+<h1>The Wall of Fame</h1>
+<br>
+<br>
 <div>
     {% for post in object_list %}
-        <a href="{% url 'detail' post.id %}">
+        <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
             <p>{{ post.description }}</p>
         </a>
     {% endfor %}

@@ -16,7 +16,7 @@ class Image(models.Model):
 
 
 class Post(models.Model):
-    description = models.TextField(max_length=250)
+    description = models.CharField(max_length=250)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
