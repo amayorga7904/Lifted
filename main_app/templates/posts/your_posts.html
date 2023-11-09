@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block content %}
 
-<h1>Your Posts</h1>
+{% if object %}
+  <h1>Edit <span class="teal-text">{{ object.name }}</span></h1>
+{% else %}
+  <h1>Add Cat</h1>
+{% endif %}
 <br>
 <br>
 <div class="row">
