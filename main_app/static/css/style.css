@@ -20,6 +20,14 @@ body {
     background-size: cover;
 }
 
-.my-card {
-    max-width: 300px; /* Adjust the value (e.g., 300px) to your desired maximum width */
+#id_description,
+#id_username,
+#id_password, 
+#id_password1, 
+#id_password2,
+#id_content {
+    border: 2px solid;
+    border-radius: 10px;
 }
+
+
