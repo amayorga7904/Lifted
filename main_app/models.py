@@ -5,6 +5,13 @@ from django.urls import reverse
 
 
 # Create your models here.
+class Image(models.Model):
+    image = models.ImageField(upload_to='images/')
+    description = models.CharField()
+
+    def __str__(self):
+        queryset = Image.objects.all()
+        return self.description  # Display the description as the object's string representation
 
 
 
