@@ -6,20 +6,18 @@
 <h1>Your Posts</h1>
 <br>
 <br>
-<div>
-    {% for post in your_posts %}
-        <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
-        <p>{{ post.description }}</p>
-        </a>
-    {% endfor %}
+<div class="row">
+    <div class="my-card">
+        <div class="card">
+            {% for post in your_posts %}
+                <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
+                    <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                <p>{{ post.description }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>  
 </div>
-  
-
-{% if image.image %}
-<img class="img-fluid" src="{{image.image.url}}">
-{% endif %}
-
-
-
 
 {% endblock %}
