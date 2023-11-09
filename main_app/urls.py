@@ -3,7 +3,14 @@ from . import views
 from .views import PostListView
 from .views import YourPostsListView
 from .views import PostDelete
+
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import include, path
+
+
 from .views import custom_403_view
+
 
 
 urlpatterns = [
@@ -18,4 +25,9 @@ urlpatterns = [
     path('posts/<int:post_id>/add_comment/', views.add_comment, name='add_comment'),
     path('comments/<int:comment_id>/delete/', views.delete_comment, name='comment_delete'),
     path('accounts/signup/', views.signup, name='signup'),
+    path('create/', views.create_image, name='image_create'),
+    path('images/', views.image_list, name='image_list'),  # URL for the image list page
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
