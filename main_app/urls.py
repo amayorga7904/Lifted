@@ -3,6 +3,7 @@ from . import views
 from .views import PostListView
 from .views import YourPostsListView
 from .views import PostDelete
+from .views import custom_403_view
 
 
 urlpatterns = [
