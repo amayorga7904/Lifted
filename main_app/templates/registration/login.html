@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Log In</h1>
+<h1>ＬＩＦＴＥＤ</h1>
+<br>
+<h2>Log In</h2>
 
 <form action="{% url 'login' %}" method="POST">
     {% csrf_token %}
@@ -11,3 +13,4 @@
 </form>
 
 {% endblock %}
+

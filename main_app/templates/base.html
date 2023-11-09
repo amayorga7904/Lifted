@@ -14,10 +14,10 @@
     <div id="nav">
     <nav class="navbar bg-body-tertiary">
         <div class="container">
+            {% if user.is_authenticated %}
             <a class="navbar-brand" href="{% url 'index' %}">
               <img src="https://i.imgur.com/03rxreM.png" alt="Lifted" width="70" height="80">
             </a>
-          {% if user.is_authenticated %}
             <a id="nav" class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'your_posts' user.id %}" id="nav">Profile</a>
             <a id="nav" class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'post_create' %}">Show what you Lifted</a>
             <a id="nav" class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'logout' %}">Log Out</a>
