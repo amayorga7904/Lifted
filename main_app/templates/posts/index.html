@@ -4,14 +4,17 @@
 <h1>The Wall of Fame</h1>
 <br>
 <br>
-<div>
-    {% for post in object_list %}
-        <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
-            <p>{{ post.description }}</p>
-        </a>
-    {% endfor %}
-</div>
-
-    
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+        {% for post in object_list %}
+            <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
+                <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
+                    <p>{{ post.description }}</p>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock %}

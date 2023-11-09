@@ -7,12 +7,12 @@
 <div class="row">
   <div class="col s6">
     <div class="card">
-      <span class="card-title">user: <strong>{{ post.user.username }}</strong></span>
+      <span class="card-title"><strong>{{ post.user.username }}</strong>'s Post</span>
       <p>{{ post.description|linebreaks }}</p>
     </div>
     <div class="card-action">
-      <a href="{% url 'post_delete' post.id %}">Delete</a>
-      <a href="{% url 'posts_update' post.id %}">Edit</a>
+      <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'post_delete' post.id %}">Delete</a>
+      <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'posts_update' post.id %}">Edit</a>
     </div>
   </div>
   <div class="col s6">
