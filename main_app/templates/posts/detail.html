@@ -11,7 +11,10 @@
       <p>{{ post.description|linebreaks }}</p>
     </div>
     <div class="card-action">
-      <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'post_delete' post.id %}">Delete</a>
+      <form method="post" action="{% url 'post_delete' post.id %}">
+        {% csrf_token %}
+        <button class="btn btn btn-dark" type="submit">Delete Post</button>
+      </form>
       <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'posts_update' post.id %}">Edit</a>
     </div>
   </div>
