@@ -15,6 +15,9 @@ import boto3
 import uuid
 import os
 # Create your views here.
+def about(request):
+  return render(request, 'home.html')
+
 
 @login_required
 def add_photo(request, post_id):
