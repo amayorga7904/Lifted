@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>this is updating</h1>
+<h1>Post Details</h1>
 <br>
 <br>
 <div class="row">
@@ -20,7 +20,7 @@
   </div>
   <div class="col s6">
     <form action="{% url 'add_comment' post.id %}" method="POST">
-      {% csrf_token %}0
+      {% csrf_token %}
       {{ comment_form.as_p }}
       <input type="submit" class="btn btn btn-dark" value="Add Comment">
     </form>
