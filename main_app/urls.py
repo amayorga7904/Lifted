@@ -11,6 +11,7 @@ from .views import custom_403_view
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('home/', views.about, name='home'),
     path('accounts/signup/', views.signup, name='signup'),
     path('posts/', PostListView.as_view(), name='index'),
     path('post/create/', views.PostCreate.as_view(), name='post_create'),
