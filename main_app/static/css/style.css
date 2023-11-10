@@ -18,6 +18,7 @@ img {
 body {
     background-image: url(https://img.freepik.com/free-vector/white-3d-paper-style-wallpaper_23-2148400294.jpg?w=1380&t=st=1699562664~exp=1699563264~hmac=83742443b64fb1ababcada97a15180784410b6ae11930cfd797596eb860d950f);
     background-size: cover;
+    height: 100vh;
 }
 
 #id_description,
