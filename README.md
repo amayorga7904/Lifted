@@ -1,20 +1,10 @@
 
 # ＬＩＦＴＥＤ
 
-
 [try it here](https://lifted-8235455a8d3f.herokuapp.com/home/)
 
 ## FEATURES
-
-
-
-
-### BIGGEST CHALLENGE
-
-
-
-#### KEY TAKEAWAY
-
+This app allows you to create an account with any username you want, after doing so you're able to post your "stolen" items freely and comment on other user's posts as desired. If you would like to edit and delete your post you're able to. The delete also applies to comments as well.
 
 
 ## TECHNOLOGIES USED 
