@@ -163,9 +163,36 @@ class PostDelete(UserCanDeletePostMixin, DeleteView):
 
 
 class PostUpdate(UserCanUpdatePostMixin, UpdateView):
-  model = Post
-  fields = ['description']
-  success_url = reverse_lazy('index')
+    model = Post
+    fields = ['description']
+    success_url = reverse_lazy('index')
+    template_name = 'main_app/post_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        post = form.save(commit=False)
+        post.save()
+
+        image = self.request.FILES.get('photo-file', None) 
+        if image:
+            url = self.upload_image_to_s3(image)
+            Photo.objects.create(url=url, post_id=post.id)
+
+        return super().form_valid(form)
+
+    def upload_image_to_s3(self, image_file):
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + image_file.name[image_file.name.rfind('.'):]
+
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(image_file, bucket, key)
+            return f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+            return None
+
 
 
 
