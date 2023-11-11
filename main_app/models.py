@@ -41,9 +41,6 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"{self.get_content_display()}"
-    
-    # class Meta:
-    #     ordering = ['-created_at']
 
 
 
