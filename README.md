@@ -25,6 +25,12 @@ This app allows you to create an account with any username you want, after doing
 
 
 ## APP WALK-THROUGH
+![SIGN-UP](<Screenshot 2023-11-10 at 9.44.22 PM.png>)
+![LOG-IN](<Screenshot 2023-11-10 at 9.45.20 PM.png>)
+![ABOUT](<Screenshot 2023-11-10 at 9.46.05 PM.png>)
+![HOME-PAGE](<Screenshot 2023-11-10 at 9.48.22 PM.png>)
+![DETAIL-PAGE](<Screenshot 2023-11-10 at 9.52.12 PM.png>)
+
 
 
 
