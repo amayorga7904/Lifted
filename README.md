@@ -25,15 +25,18 @@ This app allows you to create an account with any username you want, after doing
 
 
 ## APP WALK-THROUGH
-![SIGN-UP](<Screenshot 2023-11-10 at 9.44.22 PM.png>)
-![LOG-IN](<Screenshot 2023-11-10 at 9.45.20 PM.png>)
-![ABOUT](<Screenshot 2023-11-10 at 9.46.05 PM.png>)
-![HOME-PAGE](<Screenshot 2023-11-10 at 9.48.22 PM.png>)
-![DETAIL-PAGE](<Screenshot 2023-11-10 at 9.52.12 PM.png>)
-
-
+![SIGN-UP](<readmeimages/Screenshot 2023-11-10 at 9.44.22 PM.png>)
+![LOG-IN](<readmeimages/Screenshot 2023-11-10 at 9.45.20 PM.png>)
+![ABOUT](<readmeimages/Screenshot 2023-11-10 at 10.42.14 PM.png>)
+![HOME-PAGE](<readmeimages/Screenshot 2023-11-10 at 9.48.22 PM.png>)
+![DETAIL-PAGE](<readmeimages/Screenshot 2023-11-10 at 9.52.12 PM.png>)
+![ADD-EDIT-PAGE](<readmeimages/Screenshot 2023-11-10 at 10.05.32 PM.png>)
+![PROFILE](<readmeimages/Screenshot 2023-11-10 at 10.06.24 PM.png>)
 
 
 
 ## NEXT STEPS
 
+* Stripe API to allow purchases of items posts.
+
+* Enable a dark mode feature.
