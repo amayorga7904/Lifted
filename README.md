@@ -1,20 +1,9 @@
-
 # ＬＩＦＴＥＤ
-
 
 [try it here](https://lifted-8235455a8d3f.herokuapp.com/home/)
 
 ## FEATURES
-
-
-
-
-### BIGGEST CHALLENGE
-
-
-
-#### KEY TAKEAWAY
-
+This app allows you to create an account with any username you want, after doing so you're able to post your "stolen" items freely and comment on other user's posts as desired. If you would like to edit and delete your post you're able to. The delete also applies to comments as well.
 
 
 ## TECHNOLOGIES USED 
@@ -28,6 +17,7 @@
 ![Zoom](https://img.shields.io/badge/Zoom-2D8CFF?style=for-the-badge&logo=zoom&logoColor=white)
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)](https://getbootstrap.com/)
+![SQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 [![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)](https://www.heroku.com/)
 [![Google Chrome](https://img.shields.io/badge/Google_Chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)](https://www.google.com/chrome/)
 [![GitHub](https://img.shields.io/badge/GitHub-Version%20Control-lightgrey)](https://github.com/)
