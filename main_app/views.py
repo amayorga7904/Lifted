@@ -44,7 +44,8 @@ def home(request):
 @login_required
 def all_posts(request):
     posts = Post.objects.all()
-    return render(request, 'posts/index.html', {'posts': posts})
+    photos = Photo.objects.all()
+    return render(request, 'posts/index.html', {'posts': posts, 'photos': photos})
 
 
 @login_required

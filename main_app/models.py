@@ -43,7 +43,7 @@ class Comment(models.Model):
         return f"{self.get_content_display()}"
     
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['created_at']
 
 
 
