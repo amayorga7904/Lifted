@@ -16,9 +16,10 @@ img {
 }
 
 body {
-    background-image: url(https://img.freepik.com/free-vector/white-3d-paper-style-wallpaper_23-2148400294.jpg?w=1380&t=st=1699562664~exp=1699563264~hmac=83742443b64fb1ababcada97a15180784410b6ae11930cfd797596eb860d950f);
+    background-image: url(https://img.freepik.com/free-vector/white-technology-background_23-2148390329.jpg?w=1800&t=st=1699743547~exp=1699744147~hmac=9128fc85640e1bd97b99b401a1d53d4b0c2771aa51df9de59a4f7b076b32c997);
     background-size: cover;
     height: 100vh;
+    font-family:monospace;
 }
 
 #id_description,
