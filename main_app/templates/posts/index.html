@@ -11,6 +11,13 @@
             <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'detail' post.id %}">
                 <div class="shadow-sm p-3 mb-5 bg-body-tertiary rounded">
                     <p>{{ post.description }}</p>
+                    <div class="row2 image-container">
+                        {% for photo in post.photo_set.all %}
+                            <img class="responsive-img card-panel" src="{{photo.url}}" style="max-width: 200px; max-height: 200px;">
+                        {% empty %}
+                            <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+                        {% endfor %}
+                    </div>
                 </div>
             </a>
         {% endfor %}
