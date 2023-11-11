@@ -35,14 +35,13 @@
 
 
 ## APP WALK-THROUGH
-![SIGN-UP](<readmeimages/Screenshot 2023-11-10 at 9.44.22 PM.png>)
-![LOG-IN](<readmeimages/Screenshot 2023-11-10 at 9.45.20 PM.png>)
-![ABOUT](<readmeimages/Screenshot 2023-11-10 at 10.42.14 PM.png>)
-![HOME-PAGE](<readmeimages/Screenshot 2023-11-10 at 9.48.22 PM.png>)
-![DETAIL-PAGE](<readmeimages/Screenshot 2023-11-10 at 9.52.12 PM.png>)
-![ADD-EDIT-PAGE](<readmeimages/Screenshot 2023-11-10 at 10.05.32 PM.png>)
-![PROFILE](<readmeimages/Screenshot 2023-11-10 at 10.06.24 PM.png>)
-
+![SIGN-UP](<readmeimages/Screenshot 2023-11-11 at 4.05.28 PM.png>)
+![LOG-IN](<readmeimages/Screenshot 2023-11-11 at 4.03.44 PM.png>)
+![ABOUT](<readmeimages/Screenshot 2023-11-11 at 4.05.54 PM.png>)
+![HOME-PAGE](<readmeimages/Screenshot 2023-11-11 at 4.17.31 PM.png>)
+![DETAIL-PAGE](<readmeimages/Screenshot 2023-11-11 at 4.15.00 PM.png>)
+![ADD-EDIT-PAGE](<readmeimages/Screenshot 2023-11-11 at 4.14.08 PM.png>)
+![PROFILE](<readmeimages/Screenshot 2023-11-11 at 4.12.48 PM.png>)
 
 
 ## NEXT STEPS
