@@ -11,7 +11,7 @@ class Image(models.Model):
 
     def __str__(self):
         queryset = Image.objects.all()
-        return self.description  # Display the description as the object's string representation
+        return self.description 
 
 
 
@@ -41,9 +41,6 @@ class Comment(models.Model):
     
     def __str__(self):
         return f"{self.get_content_display()}"
-    
-    # class Meta:
-    #     ordering = ['-created_at']
 
 
 

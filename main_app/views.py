@@ -44,7 +44,8 @@ def home(request):
 @login_required
 def all_posts(request):
     posts = Post.objects.all()
-    return render(request, 'posts/index.html', {'posts': posts})
+    photos = Photo.objects.all()
+    return render(request, 'posts/index.html', {'posts': posts, 'photos': photos})
 
 
 @login_required
@@ -110,9 +111,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         post = form.save(commit=False)
         post.save()
-
-        # Handle the uploaded photo from the form
-        image = self.request.FILES.get('photo-file', None)  # Assuming 'image' is the name of the file input
+        image = self.request.FILES.get('photo-file', None)  
         if image:
             url = self.upload_image_to_s3(image)
             Photo.objects.create(url=url, post_id=post.id)
