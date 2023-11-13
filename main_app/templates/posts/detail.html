@@ -30,7 +30,7 @@
       <p>
         <p><strong>{{ comment.user.username }}</strong>: {{ comment.content }}</p>
         {% if comment.user == request.user %}
-        <a href="{% url 'comment_delete' comment.id %}">Delete</a>
+        <a class="link-offset-2 link-underline link-underline-opacity-0" href="{% url 'comment_delete' comment.id %}">Delete</a>
         {% endif %}
       </p>
       {% empty %}
